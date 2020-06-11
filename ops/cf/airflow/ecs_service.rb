@@ -9,7 +9,7 @@ resource :EcsService, 'AWS::ECS::Service', DependsOn: [:EcsCluster, :EcsTask] do
   network_configuration do
     awsvpc_configuration do
       subnets Fn::split(',', Fn.import_value(Fn.sub('${vpc}-Subnets')))
-#       assign_public_ip :ENABLED
+      assign_public_ip :ENABLED
       security_groups [
         Fn::import_value(Fn.sub('${vpc}-SecurityGroup')),
         Fn::if(:RedisStackExists, Fn::import_value(Fn::sub('${redis}-SecurityGroup')), AWS::no_value)
