@@ -1,6 +1,6 @@
 resource :EcsTask, 'AWS::ECS::TaskDefinition', DependsOn: [:IamRoleExec, :IamRoleTask, :LogGroup] do
   cpu 2048 # 256 512 1024 2048 4096
-  memory 4096 # 2-8 times cpu
+  memory 10240 # 2-8 times cpu
   family Fn::ref('AWS::StackName')
   requires_compatibilities [ :EC2 ]
   execution_role_arn Fn::get_att(:IamRoleExec, :Arn)
@@ -16,13 +16,13 @@ resource :EcsTask, 'AWS::ECS::TaskDefinition', DependsOn: [:IamRoleExec, :IamRol
         {"Name": "LOAD_EX", "Value": "N"},
         {"Name": "CONFIG", "Value": "DEVELOPMENT"},
         {"Name": "FERNET_KEY", "Value": "bzSmA8ttBWWguJd-cfIYL7fN_v_9uRbf_MBUxYKML-U="},
-        {"Name": "REDIS_HOST", "Value": Fn::import_value(Fn.sub('${redis}-PrimaryEndPointAddress'))},
+        {"Name": "REDIS_HOST", "Value": Fn::import_value(Fn::sub('${redis}-PrimaryEndPointAddress'))},
         {"Name": "POSTGRES_USER", "Value": Fn::ref(:PostgresUser)},
         {"Name": "POSTGRES_PASSWORD", "Value": Fn::ref(:PostgresPassword)},
-        {"Name": "POSTGRES_HOST", "Value": Fn::import_value(Fn.sub('${dbcluster}-Endpoint.Address'))},
+        {"Name": "POSTGRES_HOST", "Value": Fn::import_value(Fn::sub('${dbcluster}-DbClusterAddress'))},
       ],
       Image: Fn::sub('${AWS::AccountId}.dkr.ecr.${AWS::Region}.amazonaws.com/kookaburra:${branch}'),
-      MemoryReservation: 1024,
+      MemoryReservation: 2048,
       LogConfiguration: {
         LogDriver: :awslogs,
         Options: {
@@ -35,18 +35,19 @@ resource :EcsTask, 'AWS::ECS::TaskDefinition', DependsOn: [:IamRoleExec, :IamRol
     # Worker
     {
       Name: Fn::sub('${AWS::StackName}-worker'),
+      Command: ['worker'],
       Environment: [
         {"Name": "EXECUTOR", "Value": "Celery"},
         {"Name": "LOAD_EX", "Value": "N"},
         {"Name": "CONFIG", "Value": "DEVELOPMENT"},
         {"Name": "FERNET_KEY", "Value": "bzSmA8ttBWWguJd-cfIYL7fN_v_9uRbf_MBUxYKML-U="},
-        {"Name": "REDIS_HOST", "Value": Fn::import_value(Fn.sub('${redis}-PrimaryEndPointAddress'))},
+        {"Name": "REDIS_HOST", "Value": Fn::import_value(Fn::sub('${redis}-PrimaryEndPointAddress'))},
         {"Name": "POSTGRES_USER", "Value": Fn::ref(:PostgresUser)},
         {"Name": "POSTGRES_PASSWORD", "Value": Fn::ref(:PostgresPassword)},
-        {"Name": "POSTGRES_HOST", "Value": Fn::import_value(Fn.sub('${dbcluster}-Endpoint.Address'))},
+        {"Name": "POSTGRES_HOST", "Value": Fn::import_value(Fn::sub('${dbcluster}-DbClusterAddress'))},
       ],
       Image: Fn::sub('${AWS::AccountId}.dkr.ecr.${AWS::Region}.amazonaws.com/kookaburra:${branch}'),
-      MemoryReservation: 1024,
+      MemoryReservation: 2048,
       LogConfiguration: {
         LogDriver: :awslogs,
         Options: {
@@ -65,13 +66,13 @@ resource :EcsTask, 'AWS::ECS::TaskDefinition', DependsOn: [:IamRoleExec, :IamRol
         {"Name": "LOAD_EX", "Value": "N"},
         {"Name": "CONFIG", "Value": "DEVELOPMENT"},
         {"Name": "FERNET_KEY", "Value": "bzSmA8ttBWWguJd-cfIYL7fN_v_9uRbf_MBUxYKML-U="},
-        {"Name": "REDIS_HOST", "Value": Fn::import_value(Fn.sub('${redis}-PrimaryEndPointAddress'))},
+        {"Name": "REDIS_HOST", "Value": Fn::import_value(Fn::sub('${redis}-PrimaryEndPointAddress'))},
         {"Name": "POSTGRES_USER", "Value": Fn::ref(:PostgresUser)},
         {"Name": "POSTGRES_PASSWORD", "Value": Fn::ref(:PostgresPassword)},
-        {"Name": "POSTGRES_HOST", "Value": Fn::import_value(Fn.sub('${dbcluster}-Endpoint.Address'))},
+        {"Name": "POSTGRES_HOST", "Value": Fn::import_value(Fn::sub('${dbcluster}-DbClusterAddress'))},
       ],
       Image: Fn::sub('${AWS::AccountId}.dkr.ecr.${AWS::Region}.amazonaws.com/kookaburra:${branch}'),
-      MemoryReservation: 1024,
+      MemoryReservation: 2048,
       LogConfiguration: {
         LogDriver: :awslogs,
         Options: {
@@ -90,13 +91,13 @@ resource :EcsTask, 'AWS::ECS::TaskDefinition', DependsOn: [:IamRoleExec, :IamRol
       Command: ['flower'],
       Environment: [
         {"Name": "EXECUTOR", "Value": "Celery"},
-        {"Name": "REDIS_HOST", "Value": Fn::import_value(Fn.sub('${redis}-PrimaryEndPointAddress'))},
+        {"Name": "REDIS_HOST", "Value": Fn::import_value(Fn::sub('${redis}-PrimaryEndPointAddress'))},
         {"Name": "POSTGRES_USER", "Value": Fn::ref(:PostgresUser)},
         {"Name": "POSTGRES_PASSWORD", "Value": Fn::ref(:PostgresPassword)},
-        {"Name": "POSTGRES_HOST", "Value": Fn::import_value(Fn.sub('${dbcluster}-Endpoint.Address'))},
+        {"Name": "POSTGRES_HOST", "Value": Fn::import_value(Fn::sub('${dbcluster}-DbClusterAddress'))},
       ],
       Image: Fn::sub('${AWS::AccountId}.dkr.ecr.${AWS::Region}.amazonaws.com/kookaburra:${branch}'),
-      MemoryReservation: 1024,
+      MemoryReservation: 2048,
       LogConfiguration: {
         LogDriver: :awslogs,
         Options: {
