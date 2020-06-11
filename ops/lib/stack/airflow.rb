@@ -5,7 +5,8 @@ module Stax
     no_commands do
       def cfn_parameters
         super.merge(
-          branch: branch_name
+          branch: branch_name,
+          ssmenv: ssm_environment,
         )
       end
     end

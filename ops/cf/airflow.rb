@@ -3,6 +3,7 @@ description 'Kookaburra ecs service'
 ## stack names for imports
 parameter :vpc, type: :String
 parameter :redis, type: :String
+parameter :dbcluster, type: :String
 
 ## safe branch name for image tag
 parameter :branch, type: :String
