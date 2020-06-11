@@ -18,10 +18,10 @@ resource :DbCluster, 'AWS::RDS::DBCluster', DeletionPolicy: :Retain do
   snapshot_identifier Fn::if(:HasSnapshotId, Fn::ref(:snapshotid), Fn::ref('AWS::NoValue'))
 
   master_username Fn::ref(:dbuser)
-  master_user_password Fn::ref(:dbpassword))
+  master_user_password Fn::ref(:dbpassword)
 end
 
 output :DbCluster,            Fn::ref(:DbCluster)
-output :DbClusterAddress,     Fn::get_att(:DbCluster, 'Endpoint.Address')
+output :DbClusterAddress,     Fn::get_att(:DbCluster, 'Endpoint.Address'), export: Fn::sub('${AWS::StackName}-DbClusterAddress')
 output :DbClusterPort,        Fn::get_att(:DbCluster, 'Endpoint.Port')
 output :DbClusterReadAddress, Fn::get_att(:DbCluster, 'ReadEndpoint.Address')
