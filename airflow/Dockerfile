@@ -71,7 +71,7 @@ RUN set -ex \
         /usr/share/doc-base
 
 # customize here
-#COPY script/create-user.py /create-user.py
+COPY etc/scripts/create_user.py /create_user.py
 COPY etc/scripts/entrypoint.sh /entrypoint.sh
 COPY etc/config/airflow.cfg ${AIRFLOW_HOME}/airflow.cfg
 COPY ./airflow_home/dags ${AIRFLOW_HOME}/dags

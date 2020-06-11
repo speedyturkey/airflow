@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 TRY_LOOP="20"
 
 : "${REDIS_HOST:="REDIS-HOST"}"
@@ -71,7 +73,7 @@ case "$1" in
     wait_for_port "Postgres" "$POSTGRES_HOST" "$POSTGRES_PORT"
     wait_for_redis
     airflow initdb
-    python /create-user.py
+    python /create_user.py
     if [ "$AIRFLOW__CORE__EXECUTOR" = "LocalExecutor" ];
     then
       # With the "Local" executor it should all run in one container.
