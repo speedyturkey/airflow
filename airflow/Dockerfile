@@ -12,7 +12,7 @@ ENV DEBIAN_FRONTEND noninteractive
 ENV TERM linux
 
 # Airflow  # Locate Workflow Logic
-ARG AIRFLOW_VERSION=1.10.9
+ARG AIRFLOW_VERSION=1.10.10
 ARG AIRFLOW_HOME=/usr/local/airflow
 ARG APP_HOME=/usr/local/app_home
 
@@ -58,7 +58,7 @@ RUN set -ex \
     && pip install ndg-httpsclient \
     && pip install pyasn1 \
     && pip install apache-airflow[crypto,celery,postgres,password,s3,slack,redis]==$AIRFLOW_VERSION \
-    && pip install celery[redis]==4.0.2 \
+    && pip install celery[redis]==4.4.5 \
     && apt-get purge --auto-remove -yqq $buildDeps \
     && apt-get autoremove -yqq --purge \
     && apt-get clean \
