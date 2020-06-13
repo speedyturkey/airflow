@@ -4,6 +4,7 @@ description 'Kookaburra ecs service'
 parameter :vpc, type: :String
 parameter :redis, type: :String
 parameter :dbcluster, type: :String
+parameter :loadbalancer, type: :String
 
 ## safe branch name for image tag
 parameter :branch, type: :String

@@ -17,13 +17,14 @@ resource :EcsService, 'AWS::ECS::Service', DependsOn: [:EcsCluster, :EcsTask] do
     end
   end
   task_definition Fn.ref(:EcsTask)
-#   load_balancers [
-#     {
-#       ContainerName: :app,
-#       ContainerPort: Fn.ref(:GryphonPort),
-#       TargetGroupArn: Fn.import_value(Fn.sub('${lb}-AlbTg'))
-#     }
-#   ]
+  load_balancers [
+    # ECS handles registration of the load balancer target group
+    {
+      ContainerName: Fn::sub('${AWS::StackName}-flower'),
+      ContainerPort: 5555,
+      TargetGroupArn: Fn::import_value(Fn.sub('${loadbalancer}-FlowerTargetGroup'))
+    }
+  ]
 end
 
 output :EcsService, Fn::ref(:EcsService), export: Fn::sub('${AWS::StackName}-EcsService')

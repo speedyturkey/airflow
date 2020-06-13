@@ -4,6 +4,7 @@
       vpc_id Fn::ref(:Vpc)
       availability_zone Fn::select(i, Fn::get_azs)
       cidr_block Fn::select(i, Fn::cidr(Fn::get_att(:Vpc, :CidrBlock), 256, 8))
+      map_public_ip_on_launch true
       tag :Name, Fn::ref('AWS::StackName')
     end
 
