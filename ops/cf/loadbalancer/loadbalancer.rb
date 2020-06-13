@@ -16,5 +16,17 @@ resource :FlowerLoadBalancerListener, 'AWS::ElasticLoadBalancingV2::Listener', D
   protocol :TCP
 end
 
+resource :WebserverLoadBalancerListener, 'AWS::ElasticLoadBalancingV2::Listener', DependsOn: :WebserverTargetGroup do
+  default_actions [
+    {
+      TargetGroupArn: Fn.ref(:WebserverTargetGroup),
+      Type: 'forward'
+    }
+  ]
+  load_balancer_arn Fn.ref(:PublicLoadBalancer)
+  port 8080
+  protocol :TCP
+end
+
 output :FlowerLoadBalancerListenerArn, Fn.ref(:FlowerLoadBalancerListener)
 output :LoadBalancerDNS,              Fn.get_att(:PublicLoadBalancer, :DNSName)

@@ -23,7 +23,12 @@ resource :EcsService, 'AWS::ECS::Service', DependsOn: [:EcsCluster, :EcsTask] do
       ContainerName: Fn::sub('${AWS::StackName}-flower'),
       ContainerPort: 5555,
       TargetGroupArn: Fn::import_value(Fn.sub('${loadbalancer}-FlowerTargetGroup'))
-    }
+    },
+    {
+      ContainerName: Fn::sub('${AWS::StackName}-webserver'),
+      ContainerPort: 8080,
+      TargetGroupArn: Fn::import_value(Fn.sub('${loadbalancer}-WebserverTargetGroup'))
+    },
   ]
 end
 
