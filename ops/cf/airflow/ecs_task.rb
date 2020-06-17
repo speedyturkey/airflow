@@ -38,7 +38,7 @@ resource :EcsTask, 'AWS::ECS::TaskDefinition', DependsOn: [:IamRoleExec, :IamRol
       Command: ['worker'],
       Environment: [
         { Name: :EXECUTOR, Value: :Celery },
-#         { Name: :LOAD_EX, Value: :N },
+        { Name: :LOAD_EX, Value: :y },
         { Name: :CONFIG, Value: :DEVELOPMENT },
         { Name: :FERNET_KEY, Value: "bzSmA8ttBWWguJd-cfIYL7fN_v_9uRbf_MBUxYKML-U=" },
         { Name: :REDIS_HOST, Value: Fn::import_value(Fn::sub('${redis}-PrimaryEndPointAddress')) },
@@ -63,7 +63,7 @@ resource :EcsTask, 'AWS::ECS::TaskDefinition', DependsOn: [:IamRoleExec, :IamRol
       Command: ['webserver'],
       Environment: [
         { Name: :EXECUTOR, Value: :Celery },
-#         { Name: :LOAD_EX, Value: :N },
+        { Name: :LOAD_EX, Value: :y },
         { Name: :CONFIG, Value: :DEVELOPMENT },
         { Name: :FERNET_KEY, Value: "bzSmA8ttBWWguJd-cfIYL7fN_v_9uRbf_MBUxYKML-U=" },
         { Name: :REDIS_HOST, Value: Fn::import_value(Fn::sub('${redis}-PrimaryEndPointAddress')) },
@@ -91,7 +91,7 @@ resource :EcsTask, 'AWS::ECS::TaskDefinition', DependsOn: [:IamRoleExec, :IamRol
       Command: ['flower'],
       Environment: [
         { Name: :EXECUTOR, Value: :Celery },
-#         { Name: :LOAD_EX, Value: :N },
+        { Name: :LOAD_EX, Value: :y },
         { Name: :CONFIG, Value: :DEVELOPMENT },
         { Name: :FERNET_KEY, Value: "bzSmA8ttBWWguJd-cfIYL7fN_v_9uRbf_MBUxYKML-U=" },
         { Name: :REDIS_HOST, Value: Fn::import_value(Fn::sub('${redis}-PrimaryEndPointAddress')) },
