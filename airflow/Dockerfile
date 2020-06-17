@@ -71,8 +71,7 @@ RUN set -ex \
         /usr/share/doc-base
 
 # customize here
-COPY etc/scripts/create_user.py /create_user.py
-COPY etc/scripts/entrypoint.sh /entrypoint.sh
+COPY etc/scripts/entrypoint.py /entrypoint.py
 COPY etc/config/airflow.cfg ${AIRFLOW_HOME}/airflow.cfg
 COPY ./airflow_home/dags ${AIRFLOW_HOME}/dags
 COPY ./app ${APP_HOME}/app
@@ -81,13 +80,12 @@ COPY ./requirements.txt /requirements.txt
 #VOLUME ${AIRFLOW_HOME}/dags
 #VOLUME ${APP_HOME}/app
 
-RUN chmod +x /entrypoint.sh
+RUN chmod +x /entrypoint.py
 RUN chown -R airflow: ${AIRFLOW_HOME}
-ENV CONFIG="PRODUCTION"
 
 EXPOSE 8080 5555 8793
 
 USER airflow
 WORKDIR ${AIRFLOW_HOME}
 
-ENTRYPOINT ["/entrypoint.sh"]
+ENTRYPOINT ["/entrypoint.py"]
