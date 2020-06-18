@@ -13,7 +13,7 @@ ENV TERM linux
 
 # Airflow  # Locate Workflow Logic
 ARG AIRFLOW_VERSION=1.10.10
-ARG AIRFLOW_HOME=/usr/local/airflow
+ENV AIRFLOW_HOME=/usr/local/airflow
 ARG APP_HOME=/usr/local/app_home
 
 # Define en_US.
